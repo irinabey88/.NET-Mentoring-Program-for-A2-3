@@ -5,8 +5,6 @@
  * Use Thread, ThreadPool or Task classes for thread creation and any kind of synchronization constructions.
  */
 using System;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -21,41 +19,41 @@ namespace MultiThreading.Task5.Threads.SharedCollection
             Console.WriteLine("Use Thread, ThreadPool or Task classes for thread creation and any kind of synchronization constructions.");
             Console.WriteLine();
 
-            ObservableSynchronizedCollection collection = new ObservableSynchronizedCollection();
-            ObservableCollectionListener collectionListener = new ObservableCollectionListener(collection);
 
-            Task listenerTask = Task.Factory.StartNew(() => {
-                collectionListener.StartListening(CollectionChanged);
+            CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
+            CancellationToken token = cancelTokenSource.Token;
 
-                Task collectionModificationTask = Task.Factory.StartNew(() =>
+            SynchronizedCollection synchronizedCollection = new SynchronizedCollection();
+
+            Task printTask = new Task(() => {
+
+                while (true)
                 {
-                    for (int i = 0; i < 10; i++)
+                    if (token.IsCancellationRequested)
                     {
-                        collection.Add(i);
+                        Console.WriteLine("Stop execution");
+                        break;
                     }
-                });
+
+                    synchronizedCollection.PrintCollection();
+                }
+            });           
+
+            Task modificationTask  = new Task(() =>
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    synchronizedCollection.AddElement(i);
+                }
+
+                cancelTokenSource.Cancel();
             });
 
-            listenerTask.Wait();
-           
-            Console.ReadLine();
-        }
+            printTask.Start();
+            modificationTask.Start();
+            Task.WaitAll(modificationTask, printTask);
 
-        private static void CollectionChanged(object sender, NotifyCollectionChangedEventArgs eventArgs)
-        {
-            try
-            {
-                ObservableCollection<int> collection = (ObservableCollection<int>)sender;
-                foreach(var item in collection)
-                {
-                    Console.Write($"{item} ");
-                }
-                Console.WriteLine();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            Console.ReadLine();
         }
     }
 }

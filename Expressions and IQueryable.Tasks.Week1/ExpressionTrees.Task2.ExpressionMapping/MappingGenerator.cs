@@ -22,6 +22,7 @@ namespace ExpressionTrees.Task2.ExpressionMapping
             var expressions = new List<Expression>
             {
                 Expression.Assign(sourceInstance, Expression.Convert(sourceParam, sourceType)),
+                //If constructor is not assigned - there is an exception when we try to map objects
                 Expression.Assign(destinationInstance, Expression.New(destinationConstructor))
             };
 

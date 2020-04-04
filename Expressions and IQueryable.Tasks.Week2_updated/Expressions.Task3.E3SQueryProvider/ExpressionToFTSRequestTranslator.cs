@@ -33,15 +33,34 @@ namespace Expressions.Task3.E3SQueryProvider
 
                 return node;
             }
-            if (node.Method.DeclaringType == typeof(string)
-               && node.Method.Name == "StartsWith")
+            else if (node.Method.DeclaringType == typeof(string))
             {
-                //System.InvalidOperationException: 'When called from '', rewriting a node 
-                //of type 'System.Linq.Expressions.MethodCallExpression'
-                //must return a non-null value of the same type. 
-                var resultExpression = new StringVisitor().VisitAndConvert(node, "");
+                switch(node.Method.Name)
+                {
+                    case "StartsWith":
+                        StartWithVisitor startWithVisitor = new StartWithVisitor(_resultStringBuilder);
+                        MethodCallExpression startWithResult = startWithVisitor.VisitAndConvert(node, "");
+                        return startWithResult;
+                    case "EndsWith":
+                        EndsWithVisitor endsWithVisitor = new EndsWithVisitor(_resultStringBuilder);
+                        MethodCallExpression endsWithResult = endsWithVisitor.VisitAndConvert(node, "");
+                        return endsWithResult;
+                    case "Contains":
+                        ContainsVisitor containsVisitor = new ContainsVisitor(_resultStringBuilder);
+                        MethodCallExpression result = containsVisitor.VisitAndConvert(node, "");
+                        return result;
+                    case "Equals":
+                        EqualsVisitor equalsVisitor = new EqualsVisitor(_resultStringBuilder);
+                        MethodCallExpression equalsResult = equalsVisitor.VisitAndConvert(node, "");
+                        return equalsResult;
+                    default:
+                        return base.VisitMethodCall(node);
+                }                
             }
-            return base.VisitMethodCall(node);
+            else
+            {
+                return base.VisitMethodCall(node);
+            }
         }
 
         protected override Expression VisitBinary(BinaryExpression node)

@@ -94,7 +94,16 @@ namespace Expressions.Task3.E3SQueryProvider
                     Visit(constantExpression);
                     _resultStringBuilder.Append(")");
                     break;
-
+                case ExpressionType.AndAlso:
+                    _resultStringBuilder.Append("\"statements\": [");
+                    _resultStringBuilder.Append("{ \"query\":\"");
+                    Visit(node.Left);
+                    _resultStringBuilder.Append("\"},");
+                    _resultStringBuilder.Append("{ \"query\":\"");
+                    Visit(node.Right);
+                    _resultStringBuilder.Append("\"}");
+                    _resultStringBuilder.Append("]");
+                    break;
                 default:
                     throw new NotSupportedException($"Operation '{node.NodeType}' is not supported");
             };

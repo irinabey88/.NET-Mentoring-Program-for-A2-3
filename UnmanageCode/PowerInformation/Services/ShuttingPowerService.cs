@@ -1,8 +1,9 @@
-﻿using System;
+﻿using PowerInformation.Interfaces;
+using System;
 
 namespace PowerInformation.Services
 {
-    public class ShuttingPowerService
+    public class ShuttingPowerService : IShuttingPowerService
     {
         public void SetSuspendState(bool hibernate, bool forceCritical, bool disableWakeEvent)
         {

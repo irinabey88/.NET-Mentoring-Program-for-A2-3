@@ -1,10 +1,11 @@
 ﻿using PowerInformation.Enums;
+using PowerInformation.Interfaces;
 using System;
 using System.Runtime.InteropServices;
 
 namespace PowerInformation.Services
 {
-    public class HybernationService
+    public class HybernationService : IHybernationService
     {
         public void DeleteFile()
         {

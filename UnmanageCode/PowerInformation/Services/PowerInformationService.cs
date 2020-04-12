@@ -1,11 +1,12 @@
 ﻿using PowerInformation.Enums;
+using PowerInformation.Interfaces;
 using PowerInformation.Structures;
 using System;
 using System.Runtime.InteropServices;
 
 namespace PowerInformation.Services
 {
-    public class PowerInformationService
+    public class PowerInformationService : IPowerInformationService
     {
         public long GetLastSleepTime()
         {

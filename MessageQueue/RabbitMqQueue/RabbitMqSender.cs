@@ -7,7 +7,7 @@ namespace RabbitMqQueue
 {
     public class RabbitMqSender
     {
-        private const int ChunkSize = 4096;
+        private const int ChunkSize = 4098;
 
         public void SendFile(string filePath)
         {

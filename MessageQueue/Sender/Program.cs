@@ -11,6 +11,10 @@ namespace Sender
 
         static void Main(string[] args)
         {
+            //Create queue if not exists
+            var queueCreator = new QueueCreator();
+            queueCreator.Create();
+
             Run();
         }
 

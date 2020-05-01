@@ -7,13 +7,12 @@ namespace Receiver
     {
         static void Main(string[] args)
         {
-            // Wait for the user to quit the program.
-            Console.WriteLine("Press 'q' to quit the program.");
+            //Create queue if not exists
+            var queueCreator = new QueueCreator();
+            queueCreator.Create();
 
             var rabbitMqReceiver = new RabbitMqReceiver();
             rabbitMqReceiver.StartListenToMessages();
-
-            while (Console.Read() != 'q') ;
         }       
     }
 }

@@ -51,10 +51,10 @@ namespace RabbitMqQueue
             var body = eventArgs.Body.ToArray();
             var headers = eventArgs.BasicProperties.Headers;
 
-            var pathProperty = (byte[])headers["FileName"];
+            var pathProperty = (byte[])headers[HeadersConstants.FileName];
             var inprogressPass = Encoding.Default.GetString(pathProperty);
-            var sequenceNumber = (int)headers["SequenceNumber"];
-            var isEndOfSequence = (bool)headers["IsEndOfSequence"];
+            var sequenceNumber = (int)headers[HeadersConstants.SequenceNumber];
+            var isEndOfSequence = (bool)headers[HeadersConstants.IsEndOfSequence];
 
             inprogressPass = $"{ReceiverPath}\\{inprogressPass}.inprogres";
 

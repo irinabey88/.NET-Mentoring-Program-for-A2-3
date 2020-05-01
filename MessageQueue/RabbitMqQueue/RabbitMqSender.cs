@@ -13,7 +13,7 @@ namespace RabbitMqQueue
         {
             if (string.IsNullOrWhiteSpace(filePath))
             {
-                throw new ArgumentNullException($"Invalid file name", nameof(filePath));
+                throw new ArgumentNullException($"Invalid path to the file", nameof(filePath));
             }
 
             var factory = new ConnectionFactory()
@@ -57,9 +57,9 @@ namespace RabbitMqQueue
 
                             //Setup properties
                             Dictionary<string, object> headers = new Dictionary<string, object>();
-                            headers.Add("FileName", fileName);
-                            headers.Add("SequenceNumber", messageCount);
-                            headers.Add("IsEndOfSequence", isEndOfSequence);
+                            headers.Add(HeadersConstants.FileName, fileName);
+                            headers.Add(HeadersConstants.SequenceNumber, messageCount);
+                            headers.Add(HeadersConstants.IsEndOfSequence, isEndOfSequence);
 
                             var properties = model.CreateBasicProperties();
                             properties.Persistent = true;

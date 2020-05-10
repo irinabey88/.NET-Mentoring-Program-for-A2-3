@@ -1,0 +1,22 @@
+﻿@model AOP.Models.GreetingModel
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+@using (Html.BeginForm())
+{
+    <br />
+    @Html.LabelFor(m => m.Name)
+    <br />
+    @Html.EditorFor(m => m.Name)
+    <br />
+
+    @Html.LabelFor(m => m.Greeting)
+    <br />
+    @Html.DisplayTextFor(m => m.Greeting)
+    <br />
+    <br />
+    <input type="submit">
+    <br />
+}
